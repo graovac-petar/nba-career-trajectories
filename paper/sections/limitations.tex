@@ -1,0 +1,17 @@
+\section{Limitations}\label{sec:limitations}
+
+\emph{A single box-score metric.} PER rewards volume scoring and usage, captures defence only through steals, blocks and fouls, and is blind to off-ball contribution, lineup context and role \citep{kubatko2007,berri2010,martinez2011}. The BPM replication shows that the segmentation is metric-specific; the types are segments of PER productivity paths, not of player value.
+
+\emph{Survivorship and selection.} Only players with two valid seasons and 42 games are represented, and career length is itself an outcome of team decisions that depend on past performance \citep{coates2010,deutscher2017}; differences in career length between types are not differences in ability alone. The 100-minute threshold shifts a few players' first or last valid seasons; its effect is bounded by the sensitivity analyses, not eliminated.
+
+\emph{Era and censoring.} Debuts from 1979--80 to 2010--11 make careers essentially complete but exclude the most recent generation, whose style of play differs; \nActive{} players were still active at retrieval and are right-censored; lockout and pandemic seasons enter only through PER's within-season normalisation.
+
+\emph{Missing seasons.} Gaps were masked rather than modelled; the gap-deletion analysis shows that alignment choices move a minority of players between types.
+
+\emph{Model and clustering sensitivity.} Reconstruction error and the coarse structure were stable across latent dimensionalities and seeds, the fine structure was not, and a single UMAP+HDBSCAN run is not reproducible on these data. The consensus solution depends on the ensemble design and the selection rule; the PAC rule originally specified proved uninformative and was replaced by the consensus Silhouette before profiles were examined, and the full curves are reported (Appendix~\ref{app:k}). The DTW baseline used a smaller ensemble because of its cost; the autoencoder's early stopping used the reporting split, with the three-way check bounding the resulting optimism.
+
+\emph{Reference distributions.} The Gaussian and copula references are two of many possible null models; a reference matching higher-order dependence could in principle reproduce the residual reproducibility of the eight-group partition, or fail to. The gap and dip tests, which do not depend on the consensus procedure, point the same way.
+
+\emph{Associational validation.} Position, draft status, honours and value metrics were not used in clustering, but All-Star selection and BPM share inputs with PER; the associations show that the types are not artefacts of the representation, not that they carry information beyond box-score productivity. No predictive evaluation was performed.
+
+\emph{Data and causality.} Basketball-Reference is a secondary source whose PER implementation is the de facto reference but not an official statistic; draft records were matched by name and debut year and a few matches may be wrong. Every explanation of trajectory shape offered in Section~\ref{sec:discussion} is a hypothesis, because none of those variables entered the analysis.

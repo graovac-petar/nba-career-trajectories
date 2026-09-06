@@ -1,0 +1,18 @@
+\begin{tabular}{ll}\toprule
+Component & Setting \\ \midrule
+Input per season & $[x_{i,t}m_{i,t},\,m_{i,t}]$ (standardised PER, observed indicator) \\
+Model width / heads / feed-forward & 64 / 4 / 128 \\
+Encoder / decoder layers & 2 / 2 (post-norm, ReLU, dropout 0.1) \\
+Positional encoding & learned, season index (encoder) and output position (decoder) \\
+Latent dimensionality $d$ & 8, 16, 32, 64, 128 (linear projection of the CLS state) \\
+Initialisation & Xavier-uniform weights, zero biases, CLS $\sim\mathcal N(0,0.02^2)$ \\
+Loss & masked MSE, Eq.~\eqref{eq:loss} \\
+Optimiser & AdamW, learning rate $10^{-3}$, weight decay $10^{-4}$ \\
+Batch size / gradient clipping & 64 / global norm 1.0 \\
+Schedule & halve learning rate after 15 epochs without validation improvement \\
+Epochs / early stopping & at most 400; patience 40 on held-out masked MSE; best epoch restored \\
+Data split & 80/20 by player, stratified by career-length tertile, split seed 2026 \\
+Seeds & 0--4 ($d=64$), 0--2 (other $d$); deterministic algorithms enforced \\
+Parameters & 179,073 ($d=64$) \\
+Hardware / time & 2 CPU cores; 8 min per model ($d=64$) \\
+\bottomrule\end{tabular}

@@ -1,0 +1,11 @@
+\begin{tabular}{lcccc}\toprule
+Model & Seeds & Train RMSE & Held-out RMSE (SD over seeds) & Best epoch \\ \midrule
+Transformer autoencoder, $d=8$ & 3 & 0.88 & 1.23 (0.07) & 309 \\
+Transformer autoencoder, $d=16$ & 3 & 0.61 & 0.95 (0.20) & 353 \\
+Transformer autoencoder, $d=32$ & 3 & 0.47 & 0.80 (0.08) & 367 \\
+Transformer autoencoder, $d=64$ & 10 & 0.43 & 0.74 (0.06) & 361 \\
+Transformer autoencoder, $d=128$ & 3 & 0.41 & 0.74 (0.02) & 358 \\
+\midrule Player-specific linear trend (2 parameters) & -- & -- & 2.24 & -- \\
+Player mean & -- & -- & 2.76 & -- \\
+Global mean & -- & -- & 4.35 & -- \\
+\bottomrule\end{tabular}

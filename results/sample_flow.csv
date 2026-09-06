@@ -1,0 +1,43 @@
+spec,step,n
+primary,debut season in window,2381
+primary,>= 42 career games,1833
+primary,>= 2 valid seasons,1676
+primary,final players,1676
+primary,valid PER observations,13193
+primary,players with >=1 missing season inside span,458
+original2025,debut season in window,2381
+original2025,>= 42 career games,1833
+original2025,>= 2 valid seasons,1749
+original2025,final players,1749
+original2025,valid PER observations,14128
+original2025,players with >=1 missing season inside span,458
+mp250,debut season in window,2381
+mp250,>= 42 career games,1833
+mp250,>= 2 valid seasons,1544
+mp250,final players,1544
+mp250,valid PER observations,12168
+mp250,players with >=1 missing season inside span,454
+nomp_cap45,debut season in window,2381
+nomp_cap45,>= 42 career games,1833
+nomp_cap45,>= 2 valid seasons,1749
+nomp_cap45,final players,1749
+nomp_cap45,valid PER observations,14128
+nomp_cap45,players with >=1 missing season inside span,458
+min3seasons,debut season in window,2381
+min3seasons,>= 42 career games,1833
+min3seasons,>= 3 valid seasons,1444
+min3seasons,final players,1444
+min3seasons,valid PER observations,12729
+min3seasons,players with >=1 missing season inside span,404
+nogames,debut season in window,2381
+nogames,>= 0 career games,2381
+nogames,>= 2 valid seasons,1685
+nogames,final players,1685
+nogames,valid PER observations,13211
+nogames,players with >=1 missing season inside span,460
+debut1980_2005,debut season in window,2051
+debut1980_2005,>= 42 career games,1577
+debut1980_2005,>= 2 valid seasons,1437
+debut1980_2005,final players,1437
+debut1980_2005,valid PER observations,11254
+debut1980_2005,players with >=1 missing season inside span,396

@@ -1,0 +1,28 @@
+\begin{tabular}{lcccc}\toprule
+Variant & Common players & Selected $k$ & ARI with reference (selected $k$) & ARI with reference ($k=8$) \\ \midrule
+\multicolumn{5}{l}{\textit{(a) Autoencoder pipeline, reference: AE $d$=64, five seeds, $k$-means consensus}} \\
+Single AE seed & 1676 & 3 & 0.58 & 0.57 \\
+Unstandardised latent & 1676 & 3 & 0.54 & 0.52 \\
+UMAP before $k$-means & 1676 & 3 & 0.31 & 0.29 \\
+UMAP + HDBSCAN & 1676 & 5 & 0.24 & 0.18 \\
+AE $d$=8 & 1676 & 3 & 0.33 & 0.38 \\
+AE $d$=16 & 1676 & 4 & 0.29 & 0.40 \\
+AE $d$=32 & 1676 & 3 & 0.54 & 0.51 \\
+AE $d$=128 & 1676 & 3 & 0.62 & 0.53 \\
+2025 restrictions & 1676 & 3 & 0.20 & 0.18 \\
+250-minute threshold & 1544 & 3 & 0.35 & 0.29 \\
+$\ge$3 seasons & 1444 & 3 & 0.35 & 0.27 \\
+No games rule & 1676 & 3 & 0.41 & 0.38 \\
+Debut $\le$2005--06 & 1437 & 3 & 0.39 & 0.37 \\
+Gaps deleted & 1676 & 3 & 0.62 & 0.38 \\
+BPM instead of PER & 1676 & 3 & 0.32 & 0.24 \\
+\midrule \multicolumn{5}{l}{\textit{(b) Summary-statistic typology, reference: primary consensus}} \\
+2025 restrictions & 1676 & 3 & 0.31 & 0.51 \\
+250-minute threshold & 1544 & 3 & 0.48 & 0.59 \\
+$\ge$3 seasons & 1444 & 3 & 0.44 & 0.74 \\
+No games rule & 1676 & 4 & 0.92 & 0.92 \\
+Debut $\le$2005--06 & 1437 & 3 & 0.41 & 0.82 \\
+Gaps deleted & 1676 & 4 & 0.92 & 0.88 \\
+BPM instead of PER & 1676 & 3 & 0.29 & 0.27 \\
+Ward instead of $k$-means & 1676 & 3 & 0.33 & 0.53 \\
+\bottomrule\end{tabular}

@@ -1,0 +1,87 @@
+\subsection{Consensus clustering of the learned representation (RQ3)}\label{sec:res_consensus}
+
+With all five autoencoder seeds in the ensemble (\nMembersAe{} members), the consensus Silhouette of the learned representation peaks at $k=\aeAllK$ (\aeAllSil, PAC \aeAllPac) and declines thereafter (\aeAllSilTwelve{} at $k=12$); at $k=8$ only \aeAllStableEight\% of players have a stability score of 0.5 or more (Figure~\ref{fig:consensus}, Table~\ref{tab:baselines}). When the ensemble is restricted to a single autoencoder seed, so that only subsampling varies, the consensus is far tighter (\aeSeedZeroSil{} at $k=3$, \aeSeedZeroSilEight{} at $k=8$, \aeSeedZeroStableEight\% stable). The two ensembles differ only in the inclusion of independently trained encoders, so the dominant source of irreproducibility is the training seed: two runs of the same model on the same data learn latent geometries whose partitions agree only moderately (ARI \ariASeedZero{} between the single-seed and the five-seed consensus). Leaving the latent coordinates unstandardised (\aeNostdSil{} at $k=3$), inserting UMAP before $k$-means (\aeUmapSil{} at $k=3$ but \aeUmapSilEight{} at $k=8$) or embedding HDBSCAN itself in the consensus (PAC \aeHdbPac, \aeHdbStable\% stable) does not change this, and neither does latent dimensionality (coarse consensus Silhouette \aeEightSil{} to \aeOneTwoEightSil{} for $d=8$ to $128$; Table~\ref{tab:sensitivity}a). For the learned representation, a three-group coarse structure, essentially level and length of career, is reproducible across seeds; anything finer is not.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{fig5_consensus}
+\caption{Consensus diagnostics by number of clusters $k$ for the main representations and two structureless references (left: PAC; centre: consensus Silhouette), and the co-association matrix of the summary-statistic representation ordered by the $k=8$ consensus partition (right; black lines separate the types).}
+\label{fig:consensus}
+\end{figure}
+
+\subsection{Learned representation versus baselines (RQ4)}\label{sec:res_baselines}
+
+Table~\ref{tab:baselines} compares every representation under the same protocol. The nine summary statistics and the resampled trajectory are markedly more reproducible than any variant of the learned representation: at $k=8$ their consensus Silhouettes are \summSilEight{} and \rawSilEight{} against \aeAllSilEight, with \summStableEight\% and \rawStableEight\% of players stable against \aeAllStableEight\%; they explain more trajectory-shape variance ($R^2_{\mathrm{shape}}$ \summRsqEight{} and \rawRsqEight{} against \aeAllRsqEight) and are at least as strongly associated with All-Star selection and career Win Shares. Ward linkage on the summary statistics (\summWardSilEight) and PCA of the resampled trajectory (\pcaSilEight) are intermediate. DTW $k$-means on the raw sequences, the most direct classical competitor, \dtwSentence
+
+Reproducibility within a representation does not translate into agreement between representations: the $k=8$ partitions of the summary statistics and the resampled trajectory agree at ARI \xSummaryRaw, and every pairing involving the autoencoder lies between \xMin{} and \xMax{} (Appendix Table~\ref{tab:crossrep}). Each representation partitions the same players reproducibly but differently. RQ4 is answered in the negative for the learned representation, and the disagreement raises the question addressed next: whether \emph{any} of these partitions reflects discrete structure.
+
+\begin{table}[t]\centering\scriptsize
+\caption{All representations under the same consensus protocol. Sil.$_C$ = consensus Silhouette; PAC = proportion of ambiguous pairs; Stable \% = share of players with stability $\ge 0.5$; $R^2_{\mathrm{shape}}$ = share of resampled-trajectory variance explained by cluster membership; $V_{\mathrm{AS}}$ = Cram\'er's $V$ with All-Star selection; $\varepsilon^2_{\mathrm{WS}}$ = Kruskal--Wallis effect size for career Win Shares. Left block: $k$ selected by the rule; right block: all representations at $k=8$.}
+\label{tab:baselines}
+\resizebox{\textwidth}{!}{\input{tables/baselines.tex}}
+\end{table}
+
+\subsection{Discrete types or a continuum?}\label{sec:res_structure}
+
+Three tests were applied (Table~\ref{tab:structure}). The gap statistic \citep{tibshirani2001} grows monotonically in $k$ against a uniform reference for every representation, the signature of a continuous correlated cloud, and is close to zero for every $k$ against a multivariate-normal reference with the same covariance (maximum \gapSummNormalMax{} for the summary statistics, \gapRawNormalMax{} for the resampled trajectory, \gapAeNormalMax{} for the learned representation); the gap rule selects $k=1$ for all three. Hartigan's dip test \citep{hartigan1985} finds no multimodality on the first three principal components of any representation ($p$ between \dipPmin{} and \dipPmax); among the summary statistics only the number of seasons, a discrete count with a long right tail, rejects unimodality. Finally, the consensus protocol was applied to structureless references \citep{senbabaoglu2014}. \nullSentence
+
+The three tests agree: the reproducible partitions of Section~\ref{sec:res_baselines} are reproducible segmentations of a continuum, not recoveries of discrete career types.
+
+\begin{table}[t]\centering\small
+\caption{Tests for discrete structure. Gap statistic: maximum over $k=2,\dots,12$ against a multivariate-normal reference with the sample covariance and the $k$ selected by the gap rule. Dip test: $p$-values of Hartigan's test on the first three principal components. Null consensus: mean consensus Silhouette over three simulated datasets at $k=4$ and $k=8$ for a multivariate-normal reference and for a Gaussian copula with the real marginals. $^a$Gap and dip statistics for the autoencoder are computed on the seed-0 latent space; consensus values are for the five-seed ensemble.}
+\label{tab:structure}
+\resizebox{\textwidth}{!}{\input{tables/structure.tex}}
+\end{table}
+
+\subsection{A continuous description of careers}\label{sec:res_continuous}
+
+If careers form a continuum, the natural summary is a small set of continuous coordinates. Principal components of the resampled trajectory (ten points of normalised career time, PER units) provide one (Figure~\ref{fig:continuous}). The first component (\pcOneVar\% of variance) is career level: $r=\pcOneMean$ with career-mean PER, \pcOnePeak{} with peak PER, \pcOneWs{} with career Win Shares. The second (\pcTwoVar\%) is the tilt of the career, rising versus declining: uncorrelated with level ($|r|=\pcTwoMean$), $r=\pcTwoSlope$ with the linear slope and \pcTwoPeakpos{} with the relative position of the peak. Career length is a third, separate coordinate. A linear classifier on level, tilt and log length recovers the eight fine types of Section~\ref{sec:profiles} with \ldaAccThree\% cross-validated accuracy (\ldaAccTwo\% from level and tilt alone), so most of the typology is a discretisation of these three coordinates: the types are contiguous bands in the level--tilt plane with no empty regions between them, and the density of players in that plane is a single unimodal cloud.
+
+The same holds when level is removed. On the shape-only representation (each trajectory minus its own mean), the consensus protocol is again highly reproducible ($k=\shapeK$, consensus Silhouette \shapeSil) and returns the early, middle and late peakers of \citet{wakim2014} (Table~\ref{tab:shape}; median peak position \shapePpA, \shapePpB{} and \shapePpC{} of the career). But the dip test finds no multimodality in the shape components ($p\ge\shapeDipPmin$) or in the slope ($p=\dipSlopeP$), and the shape groups differ strongly in career length (median \shapeSeasA, \shapeSeasB{} and \shapeSeasC{} seasons; $\varepsilon^2=\shapeLenEps$), as expected when short careers are stretched onto normalised time. Peak timing is a continuous property of this population: \peakFirstThird\% of players peak in the first third of their career and \peakLastThird\% in the last third, with no gap in between.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{fig9_continuous}
+\caption{A continuous description. Left: mean resampled PER trajectory and the effect of one standard deviation of the first two principal components (PC1, career level; PC2, rise versus decline). Centre: players in the PC1--PC2 plane coloured by fine type, with selected players labelled. Right: density of players in the same plane.}
+\label{fig:continuous}
+\end{figure}
+
+\begin{table}[t]\centering\small
+\caption{Shape-only consensus groups ($k=\shapeK$; resampled trajectory minus the player's own mean, length excluded), ordered by median peak position; medians per group.}
+\label{tab:shape}
+\input{tables/shape.tex}
+\end{table}
+
+\subsection{A descriptive typology of the continuum}\label{sec:profiles}
+
+Continuous coordinates are the more faithful summary, but a reproducible segmentation remains useful for description, provided it is not mistaken for a discovery of natural kinds. We therefore also report the consensus partition of the most reproducible representation, the summary statistics, at $k=8$ (Table~\ref{tab:profiles8}, Figure~\ref{fig:profiles}), where the consensus Silhouette is \summSilEight{} and \summStableEight\% of players are stable; the rule-selected $k=\mainK$ solution, in which the eight types nest imperfectly (\nestingPurity\% purity), is given in Appendix~\ref{app:nesting}. Labels follow the rule of Section~\ref{sec:methods}. The long-career groups split by level into a high-PER group (T1: \eightNA{} players, median PER \eightPerA, \eightASA\% All-Stars), a moderate-PER group (T3) and a low-PER group (T6); two medium-length groups differ in direction (T2, early peak then decline; T4, late rise); and the short-career groups are flat-declining (T5), rising (T7) and steeply declining (T8). Median stability is at least \eightStabMin{} in every type. Named players illustrate rather than validate: Michael Jordan, Kobe Bryant, Larry Bird, Stephen Curry and LeBron James are all in \typeJordan, as are Isiah Thomas and Steve Nash; Ralph Sampson is in \typeSampson, Darko Mili\v{c}i\'c in \typeMilicic{} and Adam Morrison in \typeMorrison. The players nearest each type's medoid (Table~\ref{tab:profiles8}) are, by construction, not stars, and represent better what a type typically contains.
+
+\begin{table}[t]\centering\scriptsize
+\caption{Fine types ($k=8$) of the summary-statistic consensus, ordered by median career-mean PER and length. Labels follow the fixed rule (level: $>18$ high, 12--18 moderate, $<12$ low; duration: $\ge10$ long, 5--9 medium, $\le4$ short; slope qualifier if $|\text{slope}|>0.25$ PER per season).}
+\label{tab:profiles8}
+\resizebox{\textwidth}{!}{\input{tables/profiles8.tex}}
+\end{table}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{fig6_profiles}
+\caption{PER trajectories of the eight fine types on the career-season axis: individual careers (thin lines, up to 150 per panel), median (black) and interquartile band (shaded), computed at seasons with at least ten observations; $n$ and median stability per type.}
+\label{fig:profiles}
+\end{figure}
+
+\subsection{External validation (RQ5)}\label{sec:res_external}
+
+Table~\ref{tab:external} relates the eight types to variables that played no part in clustering. Associations with honours and value are large: Cram\'er's $V$ is \VAllStar{} for ever being an All-Star and \VAllNba{} for All-NBA selection; $\varepsilon^2=\epsWs$ for career Win Shares and \epsBpm{} for mean BPM; \eightASA\% of T1 players were All-Stars against at most \eightASmaxOther\% in any other type. The association with draft category is moderate ($V=\VDraft$): \eightLotteryA\% of T1 were lottery picks, whereas the short-career types are dominated by second-round and undrafted players. Position is unrelated to type ($V=\VPos$, $p=\pPos$): the types describe productivity paths, not roles, consistent with \citet{wakim2014}. Because All-Star selection, WS and BPM share inputs with PER, these associations show that the types are not artefacts of the representation, not that they carry information beyond box-score productivity.
+
+\begin{table}[t]\centering\scriptsize
+\caption{External variables by fine type. Draft category and position are row percentages; honours are the share of players with at least one selection; WS, BPM and games are medians. Last row: effect sizes over the eight types.}
+\label{tab:external}
+\resizebox{\textwidth}{!}{\input{tables/external.tex}}
+\end{table}
+
+\subsection{Sensitivity analyses (RQ5)}\label{sec:sensitivity}
+
+Table~\ref{tab:sensitivity} reports agreement with the reference partition when one element of the analysis is changed. For the summary-statistic typology (panel b), dropping the games rule and deleting gaps leave the $k=8$ partition essentially unchanged (ARI \ariSEightSummaryNogames{} and \ariSEightSummaryConsecutive), whereas restrictions that remove players change it more (ARI \ariSEightMinRestrict{} to \ariSEightMaxRestrict), partly because the rule then selects $k=3$ rather than $4$ and partly because $k$-means boundaries move when the sample distribution is reshaped. Replacing PER by BPM changes the partition substantially (ARI \ariSEightBpm) although career-mean PER and BPM correlate at $r=\corrPerBpm$: the segmentation is metric-specific. Both patterns are what a continuum implies. For the learned representation (panel a) every change, including changes that alter nothing but the training seed, moves the partition substantially (ARI \ariAMin{} to \ariAMax). Finally, the nineteen-cluster solution of the earlier version, matched by name for \nMatchedOld{} clustered players, has an ARI of \ariOldEight{} with the fine typology and \ariOldAe{} with the learned-representation consensus; it is not recovered by any reproducible analysis.
+
+\begin{table}[t]\centering\small
+\caption{Sensitivity of the partitions: ARI with the reference partition on players common to both analyses, at the selected $k$ of each variant and at $k=8$.}
+\label{tab:sensitivity}
+\resizebox{\textwidth}{!}{\input{tables/sensitivity.tex}}
+\end{table}

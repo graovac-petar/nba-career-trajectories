@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+paper/*.aux
+paper/*.log
+paper/*.bbl
+paper/*.blg
+paper/*.out
+logs/

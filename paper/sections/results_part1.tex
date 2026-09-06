@@ -1,0 +1,43 @@
+\section{Results}\label{sec:results}
+
+\subsection{Sample and reconstruction (RQ1)}\label{sec:res_recon}
+
+The primary sample contains \nPlayers{} players and \nObs{} valid PER observations (Table~\ref{tab:flow}); the median career has \medianSeasons{} valid seasons (mean \meanSeasons), the longest 23, and positions are balanced (318 to 349 players per modal position). Figure~\ref{fig:examples} shows four careers that illustrate the heterogeneity the analysis must accommodate, including gaps.
+
+\begin{table}[t]\centering\small
+\caption{Construction of the analysis sample under the primary and alternative specifications. Players enter if their first NBA season is in the debut window; ``career games'' and ``valid seasons'' are the successive restrictions; the last column counts season observations that enter the loss.}
+\label{tab:flow}
+\input{tables/flow.tex}
+\end{table}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{fig1_examples}
+\caption{Four PER careers on the calendar axis. Shaded seasons are gaps (fewer than 100 minutes); the dotted line is the league average of 15. Michael Jordan's two retirements produce gaps that are masked rather than interpolated.}
+\label{fig:examples}
+\end{figure}
+
+The autoencoder with $d=64$ reaches a held-out RMSE of \rmseHeld{} PER points (SD over five seeds \rmseHeldSd; training RMSE \rmseTrain), against \rmseLinear{} for a player-specific linear trend, \rmsePlayerMean{} for the player's own mean and \rmseGlobal{} for the global mean (Table~\ref{tab:recon}, Figure~\ref{fig:recon}); the prespecified criterion is met by a wide margin, and a 70/10/20 split gives \rmseTestThreeWay{} (Appendix~\ref{app:training}). Error falls steeply from $d=8$ (\rmseHeldEight) to $d=32$ (\rmseHeldThirtytwo) and is flat thereafter (\rmseHeldOneTwoEight{} at $d=128$). Because no career exceeds \maxSpan{} seasons, a code of 32 or more dimensions can store the sequence itself; the plateau shows that the model does so almost losslessly. This matters for clustering: a near-lossless code preserves all the idiosyncratic detail of a career, including detail shared with no other career.
+
+\begin{table}[t]\centering\small
+\caption{Reconstruction RMSE in PER units on the development (train) and held-out players, by latent dimensionality, with three baselines evaluated on the same held-out observations.}
+\label{tab:recon}
+\resizebox{\textwidth}{!}{\input{tables/recon.tex}}
+\end{table}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.55\textwidth]{fig3_reconstruction}
+\caption{Held-out reconstruction RMSE of the Transformer autoencoder as a function of latent dimensionality (mean and SD over seeds), with the three baselines.}
+\label{fig:recon}
+\end{figure}
+
+\subsection{A single UMAP+HDBSCAN run is not reproducible (RQ2)}\label{sec:res_single}
+
+Over the \nGrid{} grid configurations, HDBSCAN returned between \gridKmin{} and \gridKmax{} clusters. The three selection rules chose three different solutions (Appendix Table~\ref{tab:selection}): the DBCV rule a ten-dimensional embedding with \selDbcvKdev{} clusters on the development set, \selDbcvKho{} on the held-out players and \selDbcvKall{} when refitted on all players; the Silhouette rule and the composite rule of the earlier version two-dimensional embeddings with \selSilKdev{} and \selCompKdev{} clusters, which became \selSilKall{} and \selCompKall{} on refitting, with \selSilNoiseho\% and \selCompNoiseho\% of held-out players unassigned. The selected solution depends more on the rule and the sample than on the data.
+
+Figure~\ref{fig:single} (details in Appendix Table~\ref{tab:stability}) measures reproducibility directly. Holding the autoencoder fixed and changing only the UMAP random state, the mean pairwise ARI between runs ranged from \ariSingleMin{} to \ariSingleMax{} across configurations and extraction methods, never reaching the criterion of 0.80, and the number of clusters within a configuration varied between \kSingleMin{} and \kSingleMax{}. With excess-of-mass extraction the largest cluster contained between \bigShareEomMin\% and \bigShareEomMax\% of players on average, and it was this cluster whose subdivision changed from run to run; leaf extraction produced more and smaller clusters at the cost of \noiseLeafMean\% noise. Changing the autoencoder seed at a fixed UMAP seed gave mean ARIs between \ariAeSeedsMin{} and \ariAeSeedsMax{}. RQ2 is answered in the negative: the design of the earlier version, and by extension its nineteen-cluster solution, does not describe a reproducible partition. The instability has two sources, the stochastic embedding and, more fundamentally, the dependence of the learned latent geometry on the training seed.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.9\textwidth]{fig4_single_run}
+\caption{Reproducibility of single UMAP+HDBSCAN runs across ten UMAP random states (three autoencoder seeds each) for four configurations (C1--C4, Appendix Table~\ref{tab:stability}) and two extraction methods. Left: pairwise ARI (mean, with range); the dotted line is the prespecified criterion. Right: number of clusters (median, with range).}
+\label{fig:single}
+\end{figure}

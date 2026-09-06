@@ -1,0 +1,45 @@
+\section{Training curves and split check}\label{app:training}
+Figure~\ref{fig:training} shows development and held-out RMSE by epoch for the five seeds of the $d=64$ autoencoder; early stopping restored the best epoch (mean \bestEpoch). With a 70/10/20 split, in which early stopping uses a 10\% validation subset of the development players and the 20\% test players are never touched, the test RMSE is \rmseTestThreeWay{} (SD \rmseTestThreeWaySd{} over \nThreeWay{} seeds) against \rmseHeld{} in the main design.
+\begin{figure}[h]\centering\includegraphics[width=0.55\textwidth]{figA1_training}
+\caption{Development-set (red) and held-out (blue) reconstruction RMSE per epoch for five training seeds, $d=64$.}\label{fig:training}\end{figure}
+
+\section{Single-run UMAP+HDBSCAN: selection and stability}\label{app:single}
+\begin{table}[h]\centering\scriptsize
+\caption{Configurations selected on the development set by three rules and their behaviour on held-out and refitted data. $^a$UMAP dimension / neighbours / minimum distance / HDBSCAN minimum cluster size / minimum samples. Sil.\ = Silhouette in the UMAP space, noise excluded.}
+\label{tab:selection}
+\resizebox{\textwidth}{!}{\input{tables/selection.tex}}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Reproducibility of single runs. ARI over UMAP seeds: mean (range) of pairwise ARI among ten UMAP random states, averaged over three autoencoder seeds. ARI over AE seeds: mean pairwise ARI among the three autoencoder seeds at a fixed UMAP seed. $^a$Configurations: \configList.}
+\label{tab:stability}
+\resizebox{\textwidth}{!}{\input{tables/stability.tex}}
+\end{table}
+
+\section{Consensus diagnostics, cross-representation agreement and macro-types}\label{app:k}
+Table~\ref{tab:kcurve} lists PAC, consensus Silhouette and the share of stable players for every $k$. PAC decreases almost monotonically in $k$ for every representation, which is why it cannot select $k$ by itself and the consensus Silhouette was used; the PAC-minimum rule would select $k=12$ for every representation. Table~\ref{tab:crossrep} gives the agreement between representations at $k=8$, and Table~\ref{tab:profiles4} the rule-selected macro-types with their nesting of the fine types (Table~\ref{tab:nesting}).
+\begin{table}[h]\centering\small
+\caption{Consensus diagnostics by number of clusters $k$ for the summary-statistic representation and the five-seed autoencoder representation.}\label{tab:kcurve}
+\input{tables/kcurve.tex}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Agreement (ARI) between the $k=8$ consensus partitions obtained from different representations of the same \nPlayers{} careers.}
+\label{tab:crossrep}
+\input{tables/crossrep.tex}
+\end{table}
+\label{app:nesting}
+\begin{table}[h]\centering\scriptsize
+\caption{Macro-types ($k=\mainK$, rule-selected) of the summary-statistic consensus. Stability = median player stability; PER, seasons and slope are cluster medians.}
+\label{tab:profiles4}
+\resizebox{\textwidth}{!}{\input{tables/profiles4.tex}}
+\end{table}
+\begin{table}[h]\centering\small
+\caption{Cross-tabulation of the eight fine types (rows) against the four macro-types (columns); \nestingPurity\% of players lie in the modal macro-type of their fine type (ARI between the two partitions \ariFourEight).}\label{tab:nesting}
+\input{tables/nesting.tex}
+\end{table}
+
+\section{Internal indices in each method's own space}\label{app:internal}
+Table~\ref{tab:internal} reports Silhouette, Calinski--Harabasz and Davies--Bouldin indices of each $k=8$ consensus partition in the space that the respective method clustered; they are not comparable across representations.
+\begin{table}[h]\centering\small
+\caption{Internal indices of the $k=8$ consensus partitions, computed in each representation's own (standardised) space.}\label{tab:internal}
+\input{tables/internal.tex}
+\end{table}

@@ -1,0 +1,18 @@
+\begin{tabular}{lcccccccccccc}\toprule
+ & & \multicolumn{5}{c}{Selected $k$ (rule)} & \multicolumn{6}{c}{Matched comparison at $k=8$} \\ \cmidrule(lr){3-7}\cmidrule(lr){8-13}
+Representation & Members & $k$ & Sil.$_C$ & PAC & Stable \% & $R^2_{\mathrm{shape}}$ & Sil.$_C$ & PAC & Stable \% & $R^2_{\mathrm{shape}}$ & $V_{\mathrm{AS}}$ & $\varepsilon^2_{\mathrm{WS}}$ \\ \midrule
+Autoencoder $d=64$, 5 seeds (latent space) & 40 & 3 & 0.48 & 0.57 & 80 & 0.37 & 0.44 & 0.32 & 67 & 0.50 & 0.61 & 0.65 \\
+Autoencoder $d=64$, seed 0 only & 20 & 3 & 0.90 & 0.17 & 100 & 0.41 & 0.78 & 0.13 & 95 & 0.50 & 0.56 & 0.60 \\
+Autoencoder $d=64$, 5 seeds, unstandardised & 40 & 3 & 0.56 & 0.50 & 94 & 0.46 & 0.45 & 0.31 & 70 & 0.57 & 0.63 & 0.67 \\
+Autoencoder $d=64$, 5 seeds + UMAP (5-D) & 40 & 3 & 0.71 & 0.38 & 95 & 0.24 & 0.38 & 0.33 & 49 & 0.29 & 0.40 & 0.70 \\
+Autoencoder + UMAP + HDBSCAN (consensus) & 40 & 5 & 0.43 & 0.76 & 66 & 0.18 & 0.36 & 0.76 & 66 & 0.18 & 0.29 & 0.54 \\
+Autoencoder $d=8$, 3 seeds & 24 & 3 & 0.50 & 0.55 & 90 & 0.40 & 0.34 & 0.35 & 46 & 0.48 & 0.60 & 0.58 \\
+Autoencoder $d=16$, 3 seeds & 24 & 4 & 0.57 & 0.41 & 86 & 0.38 & 0.35 & 0.32 & 53 & 0.48 & 0.63 & 0.61 \\
+Autoencoder $d=32$, 3 seeds & 24 & 3 & 0.62 & 0.46 & 91 & 0.39 & 0.37 & 0.33 & 50 & 0.49 & 0.62 & 0.64 \\
+Autoencoder $d=128$, 3 seeds & 24 & 3 & 0.70 & 0.39 & 92 & 0.39 & 0.49 & 0.29 & 71 & 0.46 & 0.62 & 0.63 \\
+Summary statistics, $k$-means & 8 & 4 & 0.93 & 0.08 & 99 & 0.47 & 0.90 & 0.07 & 99 & 0.60 & 0.68 & 0.75 \\
+Summary statistics, Ward & 8 & 3 & 0.49 & 0.62 & 96 & 0.42 & 0.47 & 0.33 & 81 & 0.55 & 0.66 & 0.73 \\
+Resampled trajectory, $k$-means & 8 & 3 & 0.93 & 0.10 & 99 & 0.57 & 0.85 & 0.10 & 97 & 0.72 & 0.65 & 0.71 \\
+PCA of resampled trajectory, $k$-means & 8 & 3 & 0.74 & 0.31 & 94 & 0.14 & 0.50 & 0.24 & 80 & 0.34 & 0.48 & 0.55 \\
+DTW $k$-means on sequences & 8 & 3 & 0.76 & 0.34 & 97 & 0.53 & 0.36 & 0.35 & 70 & 0.66 & 0.64 & 0.51 \\
+\bottomrule\end{tabular}

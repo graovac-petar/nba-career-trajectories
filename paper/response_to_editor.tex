@@ -1,0 +1,92 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+\usepackage{enumitem,xcolor,hyperref,booktabs}
+\input{numbers.tex}
+\newcommand{\point}[2]{\item[\textbf{#1}] \textit{#2}\par\vspace{2pt}}
+\newcommand{\resp}{\par\noindent\textbf{Response.} }
+\title{Point-by-point summary of changes relative to the JSET submission\\ \large (for the cover letter of the new submission)}
+\author{P. Graovac, \DJ. Had\v{z}i Pavlovi\'c, M. Radoji\v{c}i\'c, S. Radovanovi\'c}
+\date{September 2026}
+\begin{document}\maketitle
+\noindent The manuscript \emph{Discovering NBA Career Trajectories from Longitudinal Performance Data} was declined by \emph{Proc IMechE Part P: Journal of Sports Engineering and Technology} after editorial assessment (29 August 2026) with 26 required concerns and an invitation to resubmit as a new manuscript if a stronger fit could be established. Because the contribution is analytical rather than engineering, the revised study is submitted to a quantitative sports-analytics journal. It is a new study: new data construction, a new validation design and a different substantive conclusion. Below we list every concern and what was done.
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+\point{1}{Clarify the specific contribution.}
+\resp The contribution is now explicitly methodological and empirical (Section 1): a reproducibility-oriented protocol for trajectory typing (held-out selection, seed/subsample/hyper-parameter stability, consensus clustering with a prespecified rule, equal-terms baselines, external validation) and its application to complete NBA careers. The journal was changed accordingly.
+
+\point{2}{Strengthen the literature review and define the gap.}
+\resp Section 2 now reviews aging-curve models, functional-data trajectory typologies (Wakim and Jin 2014; Elijah et al. 2025), group-based trajectory modelling, sports-economics work on draft and career length, time-series clustering and deep representation learning (including the comparative study of Lafabregue et al. 2022), the documented fragility of UMAP/HDBSCAN pipelines (Chari and Pachter 2023), and consensus/stability criteria (Monti et al. 2003; \c{S}enbabao\u{g}lu et al. 2014; von Luxburg 2010). The gap is stated in the closing paragraph of Section 2.
+
+\point{3}{State explicit research questions.}
+\resp Five research questions with prespecified success criteria are stated in Section 1 and answered one by one in Sections 5 and 6.
+
+\point{4}{Complete details of the autoencoder.}
+\resp Section 4.1 and Table 1 of the manuscript give architecture, initialisation, optimiser (AdamW), learning rate, weight decay, batch size, gradient clipping, learning-rate schedule, maximum epochs, early-stopping rule and patience, validation split, seeds, loss implementation (Eq.~2) and monitoring; training curves and a 70/10/20 split check are in Appendix A.
+
+\point{5}{Handling of variable-length sequences, gaps, interrupted careers.}
+\resp Section 3.3: calendar-axis representation with an observed-indicator, key-padding masks in attention, masked loss, no interpolation; \pctGapPlayers\% of players have at least one gap. Gap deletion is a sensitivity analysis (Section 5.9).
+
+\point{6}{Normalisation of PER.}
+\resp Section 3.3: z-scoring with development-set constants, inverse-transformed for reporting; justification given (PER already league-normalised, near-symmetric).
+
+\point{7}{Justify the 64-dimensional latent space.}
+\resp Latent dimensionalities 8, 16, 32, 64 and 128 were trained (three to five seeds each). Table 3 reports reconstruction for each; Section 5.9 reports the agreement of the consensus partitions across dimensionalities.
+
+\point{8}{Complete UMAP/HDBSCAN grid.}
+\resp Section 4.2 lists all values (\nGrid{} configurations); the full grid results are released as a CSV file.
+
+\point{9}{Justify the composite selection metric.}
+\resp The composite is no longer used for selection. Selection uses a prespecified density-based criterion (DBCV with constraints) for the single-run design and a fixed consensus-Silhouette rule for the consensus design (the PAC rule initially specified proved uninformative, which is documented); the old composite is recomputed only to show that different criteria choose different solutions (Appendix Table 10).
+
+\point{10}{Selection bias / overfitting.}
+\resp Players were split 80/20 before any modelling. All hyper-parameter selection used the development set; selected configurations were applied to held-out players by UMAP transform and HDBSCAN approximate prediction and evaluated there (Appendix Table 10). The consensus design uses subsampling by construction.
+
+\point{11}{Sensitivity and stability analyses.}
+\resp Section 5.2 quantifies single-run reproducibility across UMAP seeds, autoencoder seeds, extraction methods and configurations (ARI, range of $k$, noise, largest-cluster share). Section 5.9 covers latent dimensionality, six sample specifications, gap alignment and the performance metric. This analysis changed the conclusion of the study: the 19-cluster solution is not reproducible.
+
+\point{12}{Baseline comparisons.}
+\resp Summary-statistic $k$-means and Ward, PCA $k$-means, DTW $k$-means and raw-trajectory $k$-means are run under the identical consensus protocol and scored on identical criteria (Table 4).
+
+\point{13}{Stronger evaluation of the autoencoder.}
+\resp Held-out RMSE is compared with global-mean, player-mean and player-linear-trend baselines under a prespecified criterion (Table 3).
+
+\point{14}{Substantive meaning of clusters, external variables.}
+\resp Sections 5.5 and 5.6 test for discrete structure with the gap statistic, the dip test, structureless reference data (Gaussian and copula nulls) and a shape-only analysis, and propose continuous career coordinates as the alternative summary; Section 5.9: position, draft category, All-Star and All-NBA selection, career Win Shares, mean BPM and career games, with Cram\'er's $V$, adjusted mutual information and Kruskal--Wallis $\varepsilon^2$.
+
+\point{15}{Reliance on PER.}
+\resp Section 5.8 relates the types to WS and BPM; Section 5.9 repeats the entire pipeline on BPM trajectories and reports the agreement; the limitations of PER are analysed in Sections 6 and 7.
+
+\point{16}{Justify sample restrictions.}
+\resp Section 3.2 justifies each restriction; six alternative specifications are evaluated (Table 2, Section 5.9).
+
+\point{17}{Data source, completeness, reproducibility.}
+\resp Data are now taken from Basketball-Reference (reference PER implementation) with retrieval date, scraping script, raw download, processed files and full code released (Section 3.1; Data and code availability).
+
+\point{18}{Distinguish results from interpretation.}
+\resp Results (Section 5) contain no causal language; Section 6 labels every mechanism as a hypothesis; Section 7 states that no such variable entered the analysis.
+
+\point{19}{Subjective labels and famous players.}
+\resp A fixed labelling rule (level term, duration term, slope qualifier with numeric cut-points) is stated before the results; named players are medoid-nearest examples and are explicitly not treated as validation.
+
+\point{20}{Dedicated Limitations section.}
+\resp Section 7 addresses every item listed by the Editor.
+
+\point{21}{Narrow the practical claims.}
+\resp Claims about scouting, development and roster management are removed; Section 6 states what the typology can and cannot support.
+
+\point{22}{Mathematical notation.}
+\resp The manuscript is now typeset in \LaTeX; every equation and symbol was checked in the compiled PDF.
+
+\point{23}{Figures and tables.}
+\resp The PCA projection is replaced by figures that show the space actually clustered or the consensus matrix; every figure has labels, legends and uncertainty (interquartile bands, stability scores).
+
+\point{24}{References.}
+\resp All references were re-verified (DOIs added; the NFL-draft reference was replaced by NBA-draft studies, Berri et al. 2011 and Coates and Oguntimein 2010); author names with diacritics are handled by Bib\TeX.
+
+\point{25}{Formatting.}
+\resp Double-spaced, single-column, 12 pt, in line with the target journal.
+
+\point{26}{Language and AI disclosure.}
+\resp The text was rewritten; the AI-assistance statement follows the target journal's policy (Acknowledgements).
+\end{description}
+\end{document}
