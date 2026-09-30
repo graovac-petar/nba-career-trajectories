@@ -1,0 +1,9 @@
+label,n,k,ari_sel,ari_k8,tag
+No minutes threshold,1486,7,0.5116636836489701,0.5327318205870302,summary_latent_original2025
+250-minute threshold,1357,6,0.39114590859022563,0.6673691812383645,summary_latent_mp250
+$\ge$3 seasons,1282,3,0.5032247845276692,0.5989027118880578,summary_latent_min3seasons
+No games rule,1486,4,0.9742094133346687,0.9742094133346687,summary_latent_nogames
+Debut $\le$2005--06,1247,4,0.929475798112892,0.929475798112892,summary_latent_debut1980_2005
+Gaps deleted,1486,4,0.8931839243092944,0.8931839243092944,summary_latent_consecutive
+BPM instead of PER,1486,3,0.2926348905636957,0.356446994878873,summary_latent_primary_bpm
+Ward instead of $k$-means,1486,12,0.3062803951681348,0.4940191267218428,summary_latent_ward
