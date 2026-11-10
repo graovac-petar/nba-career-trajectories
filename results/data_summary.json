@@ -1,0 +1,8 @@
+{
+ "n_raw_rows": 25396,
+ "n_player_seasons": 20547,
+ "n_all_players": 3817,
+ "sd_per_mp_lt50": 14.920902000103425,
+ "sd_per_mp_ge500": 4.109249539966667,
+ "n_veterans": 244
+}

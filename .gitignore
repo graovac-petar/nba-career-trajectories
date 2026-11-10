@@ -1,0 +1,4 @@
+# raw source tables are not redistributed (see data/README.md)
+data/*.csv
+results/player_seasons.csv
+code/__pycache__/

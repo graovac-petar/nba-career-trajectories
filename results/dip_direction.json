@@ -1,0 +1,26 @@
+{
+ "0": {
+  "dip_pc1": 0.0,
+  "dip_best_direction": 0.0
+ },
+ "1.5": {
+  "dip_pc1": 0.0,
+  "dip_best_direction": 0.0
+ },
+ "2": {
+  "dip_pc1": 0.0,
+  "dip_best_direction": 0.0
+ },
+ "2.5": {
+  "dip_pc1": 0.0,
+  "dip_best_direction": 0.0
+ },
+ "3": {
+  "dip_pc1": 0.0,
+  "dip_best_direction": 0.2
+ },
+ "4": {
+  "dip_pc1": 0.0,
+  "dip_best_direction": 1.0
+ }
+}
